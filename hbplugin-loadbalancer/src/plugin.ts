@@ -87,6 +87,12 @@ export class LoadbalancerPlugin extends WorkerPlugin {
     }
 
     async onPluginLoad() {
+        if (this.worker.loadedPlugins.get("hbplugin-loadbalancer-client")) {
+            this.logger.error("Cannot have load balancer and load balancer client loaded at the same time!");
+            this.worker.pluginLoader.unloadPlugin("hbplugin-loadbalancer");
+            return;
+        }
+
         this.logger.info("Connecting to redis node @ %s:%s..", this.config.redisHostname, this.config.redisPort);
         this.redisClient.once("connect", () => {
             this.logger.info("Connected to redis!");
