@@ -1,7 +1,7 @@
 {
     "name": "hbplugin-loadbalancer",
     "packageManager": "yarn@3.0.2",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "My cool Hindenburg plugin",
     "keywords": [
         "hindenburg",

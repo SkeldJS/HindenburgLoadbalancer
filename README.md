@@ -1,5 +1,5 @@
 # Hindenburg Load-balancer
-Plugins for [Hindenburg](https://github.com/skeldjs/Hindenburg) to either to the server into a _Load-balancer_, or turn your server into a worker for a load-balancer.
+Plugins for [Hindenburg](https://github.com/skeldjs/Hindenburg) to either to the server into a _load-balancer_, or turn your server into a worker for a load-balancer.
 
 In general, a load-balancer helps distribute load across several servers, "workers", evenly. It does this by creating a single access point and redirecting players to the correct server. When creating a room, it sends the player to a server with the lowest load, and when joining a room, it sends the player to the server that is currently hosting that room.
 
@@ -74,12 +74,12 @@ Then, with this new plugin folder and your `HINDENBURG_PLUGINS` environment vari
 HINDENBURG_PLUGINS="/home/edward/loadbalancer-plugins" yarn plugins install hbplugin-loadbalancer
 ```
 
+> If you're on windows, you can run the exact same command but prefixed with `npx cross-env`, see [the NPM page for `cross-env`](https://www.npmjs.com/package/cross-env) for more information.
+
 Then, install the load balancer client in your normal plugins directory:
 ```sh
 yarn plugins install hbplugin-loadbalancer-client
 ```
-
-> If you're on windows, you can run the exact same command but prefixed with `npx cross-env`, see [the NPM page for `cross-env`](https://www.npmjs.com/package/cross-env) for more information.
 
 ### Running with `yarn start`
 Now, you can run both the load-balancer and the worker with 2 separate commands in 2 separate terminals:

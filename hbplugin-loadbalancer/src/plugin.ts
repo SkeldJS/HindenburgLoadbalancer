@@ -56,7 +56,7 @@ export interface LoadbalancerConfig {
     healthUpdateInterval: number;
 }
 
-@HindenburgPlugin("hbplugin-loadbalancer", "1.0.0", "none", {
+@HindenburgPlugin("hbplugin-loadbalancer", "1.0.1", "none", {
     redisPort: 6379,
     redisHostname: "127.0.0.1",
     healthUpdateInterval: 2
@@ -235,7 +235,7 @@ export class LoadbalancerPlugin extends WorkerPlugin {
         const redirectWorker = await this.getNextBestWorker(message.gameSettings, context.sender);
 
         if (!redirectWorker) {
-            context.sender.joinError(DisconnectReason.ServerFull);
+            context.sender.disconnect(DisconnectReason.ServerFull);
             return;
         }
 
@@ -250,11 +250,11 @@ export class LoadbalancerPlugin extends WorkerPlugin {
 
         const redisRoom: { [key in keyof RedisRoom]: string } = await this.redisClient.hgetall("room." + Int2Code(message.code)) as { [key in keyof RedisRoom]: string };
         if (!redisRoom || Object.keys(redisRoom).length === 0) {
-            context.sender.joinError(DisconnectReason.GameNotFound);
+            context.sender.disconnect(DisconnectReason.GameNotFound);
             return;
         }
         if (parseInt(redisRoom.numConnections) >= parseInt(redisRoom.maxPlayers)) {
-            context.sender.joinError(DisconnectReason.GameFull);
+            context.sender.disconnect(DisconnectReason.GameFull);
             return;
         }
         const redirectWorker = this.workerNodes.get(redisRoom.workerInstance);
@@ -262,7 +262,7 @@ export class LoadbalancerPlugin extends WorkerPlugin {
             redirectWorker.numConnections++;
             await this.redirect(context.sender, redirectWorker);
         } else {
-            context.sender.joinError(DisconnectReason.GameNotFound);
+            context.sender.disconnect(DisconnectReason.GameNotFound);
         }
     }
 }
